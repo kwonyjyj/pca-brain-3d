@@ -2022,7 +2022,8 @@ html[data-visualize-page-inline-inset] &gt; body { padding-inline: var(--page-co
     const cubeOffsets=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
     const cubeFaces=[[0,1,2,3],[4,7,6,5],[0,4,5,1],[3,2,6,7],[0,3,7,4],[1,5,6,2]];
     const sampleCanvas=document.createElement('canvas');sampleCanvas.width=sampleCanvas.height=1;const sample=sampleCanvas.getContext('2d');
-    function rgb(token){let c=getComputedStyle(root).getPropertyValue(token).trim()||getComputedStyle(root).color;sample.clearRect(0,0,1,1);sample.fillStyle=c;sample.fillRect(0,0,1,1);return [...sample.getImageData(0,0,1,1).data].slice(0,3)}
+    const colorProbe=document.createElement('span');colorProbe.hidden=true;root.append(colorProbe);
+    function rgb(token){colorProbe.style.color='var('+token+', currentColor)';const c=getComputedStyle(colorProbe).color;sample.clearRect(0,0,1,1);sample.fillStyle=c;sample.fillRect(0,0,1,1);return [...sample.getImageData(0,0,1,1).data].slice(0,3)}
     let palette,neutral,foreground,bg;
     function theme(){palette=Array.from({length:6},(_,i)=&gt;rgb('--viz-series-'+(i+1)));neutral=rgb('--muted-foreground');foreground=rgb('--foreground');bg=rgb('--background')}
     const colour=(c,a=1)=&gt;`rgba(${c[0]},${c[1]},${c[2]},${a})`;
